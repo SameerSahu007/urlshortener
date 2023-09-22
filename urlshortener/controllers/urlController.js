@@ -1,6 +1,6 @@
 const validator = require('validator')
 const crypto = require('crypto');
-const UrlMap = require('../models/urlMap')
+const {UrlMap} = require('../models/urlMap')
 
 function generateUniqueIdentifier(url) {
     url = url + Date.now()
@@ -13,17 +13,17 @@ function generateUniqueIdentifier(url) {
 
 
 exports.urlGenerator = async  (req, res) => {
-    const url = req.query.url
+    const url = req.body.url
     if (!url) {
-        return res.status(400).json({ error: 'URL is required.' })
+        return res.status(400).json({ urlIsNull: 'URL is required.' })
     }
 
     if (validator.isURL(url)) {
         const encodedString = generateUniqueIdentifier(url)
         const urlobj = new UrlMap({encodedString, url })
         await urlobj.save()       
-        return res.json({ valid: true, message: url });
+        return res.json({message:encodedString });
     } else {
-        return res.json({ valid: false, message: 'Invalid URL' });
+        return res.json({invalidUrl: 'Invalid URL' });
     }
 }
