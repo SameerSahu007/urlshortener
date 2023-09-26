@@ -28,8 +28,6 @@ const User =  sq.define("user", {
 
 User.hasMany(UrlMap, {
   onDelete: 'CASCADE',
-  foreignKey: 'urlId',
-  type: DataTypes.UUID,
 })
 UrlMap.belongsTo(User);
 

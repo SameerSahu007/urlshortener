@@ -1,18 +1,20 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Form from './components/Form';
 import Navbar from './components/Navbar';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import MyLinks from './components/MyLinks';
 function App() {
   return (
-    <div className="App font-mono lg:mx-72
-    md:mx-0 ">
-      <Navbar />
+    <div className="App font-mono lg:w-1/2 min-w-[40%] mx-auto">
+      
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path='/' element={<Form />} />
           <Route path='/login' element={<Login />} />
-          <Route path ='signup' element={<SignUp/>} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/mylinks' element={<MyLinks />} />
         </Routes>
       </BrowserRouter>
     </div>
