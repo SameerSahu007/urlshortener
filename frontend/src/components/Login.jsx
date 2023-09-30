@@ -1,7 +1,10 @@
-import { useState} from 'react';
+import { useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
     const [formdata, setFormData] = useState({ email: '', password: '' })
-    const [errors, setEroor] = useState(null)
+    const [error, setError] = useState('')
+    const navigate = useNavigate()
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -10,9 +13,14 @@ const Login = () => {
             [name]: value
         });
     }
+
+    useEffect(()=> {
+        if(localStorage.getItem('authtoken')){
+            navigate('/')
+        }
+    }, [])
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(formdata)
         fetch('http://localhost:8000/login', {
             method: 'POST',
             body: JSON.stringify(formdata),
@@ -22,7 +30,13 @@ const Login = () => {
         })
         .then((res) => res.json())
         .then((data) => {
-            localStorage.setItem("authtoken", data.token);
+            if(data.token){
+                localStorage.setItem("authtoken", data.token);
+                window.location.reload();
+            } 
+            else if(data.error){
+                setError(data.error)
+            }    
         })
         .catch((err) => {
             console.log(err.message);
@@ -34,6 +48,7 @@ const Login = () => {
 
             <form onSubmit={handleSubmit}>
                 <div className='flex flex-col my-12'>
+                {error.length > 0 && <p className='text-center text-red-500'>{error}</p> }
                     <label className='text-center text-blue-500' >Email</label>
                     <input type="text"
                         name="email"

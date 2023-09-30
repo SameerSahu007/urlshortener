@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { urlGenerator } = require('../controllers/urlController')
+const { urlGenerator, mylinks } = require('../controllers/urlController')
 const { urlDecoder } = require('../controllers/decoder.js')
 const { handleLogin, handleSignUp, verifyToken } = require('../controllers/Authentication')
 
@@ -12,9 +12,7 @@ router.get('/home', (req, res) => {
     res.send('Hello, World!');
 });
 
-router.get('/secret',verifyToken, (req, res) => {
-    res.json({text : "Hello this is a secret text"});
-});
+router.get('/mylinks',verifyToken, mylinks);
 
 router.post('/home', urlGenerator);
 router.post('/login', handleLogin);

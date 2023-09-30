@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+    const refresh = () =>{
+        localStorage.removeItem('authtoken')
+        window.location.reload(true)
+    } 
     return (
         <>
             <nav className="flex font-bold  bg-[#0d1112] py-4 px-8 items-center justify-end">
@@ -10,24 +14,39 @@ const Navbar = () => {
                 </div>
 
 
-                <div className="lg:pl-10">
+                {!localStorage.getItem('authtoken') ?
+                    <div className="lg:pl-10">
+                        <button className="bg-[#A2D2FF] hover:bg-white text-black font-bold py-2 px-5 rounded mb-2">
+                            <Link to='/login'>
+                                Login
+                            </Link>
+                        </button>
 
-                    <button className="bg-[#A2D2FF] hover:bg-white text-black font-bold py-2 px-5 rounded mb-2">
-                        <Link to='/login'>
-                            Login
-                        </Link>
-                    </button>
-
-                    <Link to='/signup'>
+                        <button className="bg-[#A2D2FF] hover:bg-white
+                                 text-black font-bold py-2 px-4 rounded">
+                            <Link to='/signup'>
+                                SignUp
+                            </Link>
+                        </button>
+                    </div>
+                    :
                     <button className="bg-[#A2D2FF] hover:bg-white
-                     text-black font-bold py-2 px-4 rounded">
-                        SignUp
+                    text-black font-bold py-2 px-4 rounded" onClick={refresh}>
+                        logout
                     </button>
-                    </Link>
-                    
-                </div>
+                }
+
 
             </nav>
+            <div className="text-right back my-3 mx-2">
+                <Link to='/' className="bg-blue-500 text-white px-3 py-2 mx-2 rounded-full hover:bg-blue-700">
+                    Home
+                </Link>
+                <Link to='/mylinks' className="bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-700">
+                    MyLinks
+                </Link>
+            </div>
+
         </>
     );
 }

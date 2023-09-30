@@ -3,8 +3,7 @@ import CopyButton from './CopyButton.jsx';
 
 const Form = () => {
     const [formdata, setFormData] = useState({ url: '' });
-    const [isValid, setIsValid] = useState({ value: false })
-    const [urlNull, setUrlNull] = useState({ value: false })
+    const [error, setError] = useState('')
     const [shorturl, setShortUrl] = useState({ value: false, url: '' })
 
     const handleInputChange = (e) => {
@@ -13,35 +12,28 @@ const Form = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
+        const token = localStorage.getItem('authtoken');
         fetch('http://localhost:8000/home', {
             method: 'POST',
             body: JSON.stringify(formdata),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
+                'Authorization': `Bearer ${token}`
             },
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data.urlIsNull !== undefined) {
-                    setUrlNull(prevState => {
-                        return { ...prevState, value: true };
-                    });
-                }
-                else if (data.invalidUrl !== undefined) {
-                    setIsValid(prevState => {
-                        return { ...prevState, value: true };
-                    });
+                if (data.error) {
+                   setError(data.error)
                 }
                 else {
-                    // console.log(data.message)
                     setShortUrl(prevState => {
                         return { ...prevState, url: data.message, value: true }
                     })
-                    console.log(shorturl)
                 }
             })
             .catch((err) => {
-                console.log(err.message);
+                console.log(err);
             });
     }
 
@@ -50,8 +42,7 @@ const Form = () => {
             <form onSubmit={handleSubmit}>
                 <div className='flex flex-col my-12'>
                     <label className='text-center text-blue-500' >Paste your URL here</label>
-                    {urlNull.value && <p className='text-center text-red-500'>Url cannot be empty!</p>}
-                    {isValid.value && <p className='text-center text-red-500'>Invalid url!</p>}
+                    {error.length > 0 && <p className='text-center text-red-500'>{error}</p> }
                     <input type="text"
                         name="urlform"
                         value={formdata.name}
@@ -68,7 +59,7 @@ const Form = () => {
 
                 </div>
             </form>
-            {shorturl.value && <CopyButton urlname = {shorturl.url} /> }
+            {shorturl.url && <CopyButton urlname = {shorturl.url} /> }
             
         </div>
     );

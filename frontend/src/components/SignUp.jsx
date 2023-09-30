@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 const SignUp = () => {
-    const [formdata, setFormData] = useState({ email: '', password: '' , passwordagain:''})
-    const [errors, setEroor] = useState(null)
+    const [formdata, setFormData] = useState({ email: '', password: '', passwordagain: '' })
+    const [error, setError] = useState('')
+    const navigate = useNavigate()
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -10,9 +12,14 @@ const SignUp = () => {
             [name]: value
         });
     }
+
+    useEffect(() => {
+        if (localStorage.getItem('authtoken')) {
+            navigate('/')
+        }
+    }, [])
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(formdata)
         fetch('http://localhost:8000/signup', {
             method: 'POST',
             body: JSON.stringify(formdata),
@@ -22,7 +29,13 @@ const SignUp = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                localStorage.setItem("authtoken", data.token);
+                if(data.token){
+                    localStorage.setItem("authtoken", data.token);
+                    window.location.reload();
+                } 
+                else if(data.error){
+                    setError(data.error)
+                }  
             })
             .catch((err) => {
                 console.log(err.message);
@@ -33,6 +46,7 @@ const SignUp = () => {
         <>
 
             <form onSubmit={handleSubmit}>
+            {error.length > 0 && <p className='text-center text-red-500'>{error}</p> }
                 <div className='flex flex-col my-12'>
                     <label className='text-center text-blue-500' >Email</label>
                     <input type="text"
