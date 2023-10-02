@@ -11,7 +11,15 @@ const UrlMap = sq.define("url", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-
+  visitCount: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false,
+  },
+  lastVisit:{
+    type: DataTypes.DATE,
+    allowNull: true
+  }
 });
 
 const User =  sq.define("user", {

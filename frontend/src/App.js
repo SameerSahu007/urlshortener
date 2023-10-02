@@ -6,7 +6,7 @@ import SignUp from './components/SignUp';
 import MyLinks from './components/MyLinks';
 function App() {
   return (
-    <div className="App font-mono lg:w-1/2 min-w-[40%] mx-auto h-screen">
+    <div className="App font-mono lg:w-3/4 min-w-[40%] mx-auto h-screen">
       
       <BrowserRouter>
         <Navbar />

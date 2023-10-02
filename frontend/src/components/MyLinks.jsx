@@ -21,7 +21,7 @@ const MyLinks = () => {
 
         {!userlinks.length ? <h2 className='text-center my-4'>There are no links created yet or you're not logged in right now.</h2> : <h2 className='text-center my-4'>Here are your links: </h2>}
         
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="min-w-full divide-y divide-gray-200 mx-auto ml-0">
             <thead className="bg-gray-50">
                 <tr>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -29,6 +29,12 @@ const MyLinks = () => {
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         URL
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Clicks
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Last Visit
                     </th>
                 </tr>
             </thead>
@@ -40,6 +46,13 @@ const MyLinks = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">{object.url}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">{object.visitCount}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900"> {
+                            object.lastVisit && new Date(object.lastVisit).toLocaleString()}</div>
                         </td>
                     </tr>
                 ))}
