@@ -4,7 +4,7 @@ const router = require('./routes/index')
 const cors = require('cors');
 const  sq = require('./config/db')
 const cookieParser = require('cookie-parser');
-const port = 8000
+const PORT = process.env.PORT || 8000
 
 require('dotenv').config();
 app.use(express.urlencoded({ extended: true }))
@@ -18,7 +18,7 @@ async function checkDatabaseConnection() {
     try {
         await sq.authenticate();
         console.log('Connection has been established successfully.');
-        app.listen(port, () => {
+        app.listen(PORT, () => {
             console.log("App started at port 8000")
         })
     } catch (error) {
