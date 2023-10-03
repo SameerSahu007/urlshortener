@@ -3,7 +3,6 @@
 # dependencies
 ideas.txt
 */node_modules
-*/config
 /.pnp
 .pnp.js
 
