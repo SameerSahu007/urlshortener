@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 const SignUp = () => {
     const [formdata, setFormData] = useState({ email: '', password: '', passwordagain: '' })
     const [error, setError] = useState('')
@@ -20,7 +21,7 @@ const SignUp = () => {
     }, [])
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch('http://localhost:8000/signup', {
+        fetch('https://urlshortener-service-vfuq.onrender.com/signup', {
             method: 'POST',
             body: JSON.stringify(formdata),
             headers: {

@@ -1,10 +1,11 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import CopyButton from './CopyButton.jsx';
 
 const Form = () => {
     const [formdata, setFormData] = useState({ url: '' });
     const [error, setError] = useState('')
     const [shorturl, setShortUrl] = useState({ value: false, url: '' })
+    const api_home = process.env.API_HOME
 
     const handleInputChange = (e) => {
         const url = e.target.value;
@@ -13,7 +14,7 @@ const Form = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         const token = localStorage.getItem('authtoken');
-        fetch('http://localhost:8000/home', {
+        fetch('https://urlshortener-service-vfuq.onrender.com/home', {
             method: 'POST',
             body: JSON.stringify(formdata),
             headers: {
@@ -24,7 +25,7 @@ const Form = () => {
             .then((res) => res.json())
             .then((data) => {
                 if (data.error) {
-                   setError(data.error)
+                    setError(data.error)
                 }
                 else {
                     setShortUrl(prevState => {
@@ -41,8 +42,11 @@ const Form = () => {
         <div>
             <form onSubmit={handleSubmit}>
                 <div className='flex flex-col my-12'>
+                    <span className="bg-red-100 text-red-700 p-2 rounded-md text-center lg:mx-36 md:mx-5 my-4">
+                    Please note that the URL is longer because it uses a free domain provided by render.com
+                    </span>
                     <label className='text-center text-blue-500' >Paste your URL here</label>
-                    {error.length > 0 && <p className='text-center text-red-500'>{error}</p> }
+                    {error.length > 0 && <p className='text-center text-red-500'>{error}</p>}
                     <input type="text"
                         name="urlform"
                         value={formdata.name}
@@ -59,8 +63,8 @@ const Form = () => {
 
                 </div>
             </form>
-            {shorturl.url && <CopyButton urlname = {shorturl.url} /> }
-            
+            {shorturl.url && <CopyButton urlname={shorturl.url} />}
+
         </div>
     );
 }

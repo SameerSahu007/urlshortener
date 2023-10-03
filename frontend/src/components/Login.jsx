@@ -5,7 +5,6 @@ const Login = () => {
     const [formdata, setFormData] = useState({ email: '', password: '' })
     const [error, setError] = useState('')
     const navigate = useNavigate()
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -21,7 +20,7 @@ const Login = () => {
     }, [])
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch('http://localhost:8000/login', {
+        fetch('https://urlshortener-service-vfuq.onrender.com/login', {
             method: 'POST',
             body: JSON.stringify(formdata),
             headers: {

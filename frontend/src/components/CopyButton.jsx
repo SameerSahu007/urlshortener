@@ -1,10 +1,10 @@
 const CopyButton = (props) => {
-
+    const api = process.env.API
     const copied = ()=> {
         navigator.clipboard.writeText(fullurl)
         alert("Link copied")
     }  
-    const fullurl = 'http://localhost:8000/' + props.urlname
+    const fullurl = 'https://urlshortener-service-vfuq.onrender.com/' + props.urlname
     return (
         <>
             <h2 className="text-center text-gray-700 my-5">Here is your shortened URL. Click to copy.</h2>
