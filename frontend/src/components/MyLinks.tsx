@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
 
+interface UserLink {
+    encodedString: string;
+    url: string;
+    visitCount: number;
+    lastVisit?: string; 
+}
+
 const MyLinks = () => {
-    const [userlinks, setUserLinks] = useState([]);
+    const [userlinks, setUserLinks] = useState<UserLink[]>([]);
     useEffect(() => {
         const token = localStorage.getItem('authtoken');
         fetch('https://urlshortener-service-vfuq.onrender.com/mylinks', {

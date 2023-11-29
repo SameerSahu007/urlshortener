@@ -1,19 +1,29 @@
-import { useState } from 'react';
-import CopyButton from './CopyButton.jsx';
+import { useState, FormEvent} from 'react';
+import CopyButton from './CopyButton';
+
+interface FormData {
+    url: string;
+}
+
+interface ShortUrlState {
+    value: boolean;
+    url: string;
+}
 
 const Form = () => {
-    const [formdata, setFormData] = useState({ url: '' });
-    const [error, setError] = useState('')
-    const [shorturl, setShortUrl] = useState({ value: false, url: '' })
-    const api_home = process.env.API_HOME
+    const [formdata, setFormData] = useState<FormData>({ url: '' });
+    const [error, setError] = useState<string>('');
+    const [shorturl, setShortUrl] = useState<ShortUrlState>({ value: false, url: '' });
+    // const api_home = process.env.API_HOME
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const url = e.target.value;
         setFormData({ url })
     }
-    const handleSubmit = (e) => {
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const token = localStorage.getItem('authtoken');
+        const token: string | null = localStorage.getItem('authtoken');
         fetch('https://urlshortener-service-vfuq.onrender.com/home', {
             method: 'POST',
             body: JSON.stringify(formdata),
@@ -49,7 +59,7 @@ const Form = () => {
                     {error.length > 0 && <p className='text-center text-red-500'>{error}</p>}
                     <input type="text"
                         name="urlform"
-                        value={formdata.name}
+                        value={formdata.url}
                         onChange={handleInputChange}
                         placeholder="URL"
                         className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-8/12 mx-auto justify-left"

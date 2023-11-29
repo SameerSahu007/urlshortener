@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
     const refresh = () =>{
         localStorage.removeItem('authtoken')
-        window.location.reload(true)
+        window.location.reload()
     } 
     return (
         <>

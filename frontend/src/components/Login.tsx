@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent} from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
-    const [formdata, setFormData] = useState({ email: '', password: '', passwordagain: '' })
-    const [error, setError] = useState('')
+interface UserInfo {
+    email: string, 
+    password : string, 
+}
+
+const Login = () => {
+    const [formdata, setFormData] = useState<UserInfo>({ email: '', password: '' })
+    const [error, setError] = useState<string>('')
     const navigate = useNavigate()
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
             ...formdata,
@@ -14,41 +19,41 @@ const SignUp = () => {
         });
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('authtoken')) {
+    useEffect(()=> {
+        if(localStorage.getItem('authtoken')){
             navigate('/')
         }
     }, [])
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        fetch('https://urlshortener-service-vfuq.onrender.com/signup', {
+        fetch('https://urlshortener-service-vfuq.onrender.com/login', {
             method: 'POST',
             body: JSON.stringify(formdata),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         })
-            .then((res) => res.json())
-            .then((data) => {
-                if(data.token){
-                    localStorage.setItem("authtoken", data.token);
-                    window.location.reload();
-                } 
-                else if(data.error){
-                    setError(data.error)
-                }  
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
+        .then((res) => res.json())
+        .then((data) => {
+            if(data.token){
+                localStorage.setItem("authtoken", data.token);
+                window.location.reload();
+            } 
+            else if(data.error){
+                setError(data.error)
+            }    
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
     }
 
     return (
         <>
 
             <form onSubmit={handleSubmit}>
-            {error.length > 0 && <p className='text-center text-red-500'>{error}</p> }
                 <div className='flex flex-col my-12'>
+                {error.length > 0 && <p className='text-center text-red-500'>{error}</p> }
                     <label className='text-center text-blue-500' >Email</label>
                     <input type="text"
                         name="email"
@@ -65,16 +70,6 @@ const SignUp = () => {
                         placeholder="password"
                         className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-8/12 mx-auto justify-left"
                     />
-
-                    <label className='text-center text-blue-500'>Password(Again)</label>
-                    <input type="password"
-                        name="passwordagain"
-                        value={formdata.passwordagain}
-                        onChange={handleInputChange}
-                        placeholder="password"
-                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-8/12 mx-auto justify-left"
-                    />
-
                     <button
                         type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 justify-center w-8/12 mx-auto my-4 rounded"
@@ -88,5 +83,5 @@ const SignUp = () => {
         </>
     );
 }
-
-export default SignUp;
+ 
+export default Login;
