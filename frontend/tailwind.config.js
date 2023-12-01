@@ -8,6 +8,9 @@ module.exports = {
       maxWidth: {
         '800': '800px',
       },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
     },
   },
   plugins: [],

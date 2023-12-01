@@ -4,19 +4,23 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import MyLinks from './components/MyLinks';
+import bgimage from './images/bgimage.jpg'
 
 function App() {
+
   return (
-    <div className="App font-mono lg:w-3/4 min-w-[40%] mx-auto h-screen">
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Form />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/mylinks' element={<MyLinks />} />
-        </Routes>
-      </BrowserRouter>
+    <div className="bg-black w-screen h-screen font-poppins">
+      <div>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Form />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/mylinks' element={<MyLinks />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
