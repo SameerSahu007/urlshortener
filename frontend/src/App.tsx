@@ -9,7 +9,7 @@ import bgimage from './images/bgimage.jpg'
 function App() {
 
   return (
-    <div className="bg-black w-screen h-screen font-poppins">
+    <div className="bg-black w-screen h-screen font-poppins ">
       <div>
         <BrowserRouter>
           <Navbar />

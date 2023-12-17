@@ -11,8 +11,9 @@ const CopyButton = ({ urlname }: CopyButtonProps) => {
     const fullurl = 'https://urlshortener-service-vfuq.onrender.com/' + urlname
     return (
         <>
-            <h2 className="text-center text-gray-700 my-5">Here is your shortened URL. Click to copy.</h2>
-            <p className="text-center  text-blue-500 text-2xl hover:cursor-pointer"
+            <h2 className="text-center text-[#aaa] my-5">Here is your shortened URL. Click to copy.</h2>
+            <p className="text-center  text-[#f5dddd] text-xl max-w-[25rem]
+                    sm:max-w-[18rem] m-auto hover:cursor-pointer"
                 onClick={() => { copied() }}>
                 {fullurl}
             </p>
