@@ -7,7 +7,7 @@ const Navbar = () => {
     }
     return (
         <>
-            <nav className="flex font-bold  bg-transparent py-4 px-8 items-center justify-end">
+            <nav className="flex font-bold  bg-transparent py-4 px-8 items-center justify-end mb-2">
 
                 <div className="text-[#A2D2FF]  text-3xl border-spacing-3 text-center
               mx-auto lg:w-11/12 md:w-11/12 sm:w-10/12 rounded">

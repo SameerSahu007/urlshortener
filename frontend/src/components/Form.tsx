@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import CopyButton from './CopyButton';
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 interface FormData {
     url: string;
@@ -14,6 +15,7 @@ const Form = () => {
     const [formdata, setFormData] = useState<FormData>({ url: '' });
     const [error, setError] = useState<string>('');
     const [shorturl, setShortUrl] = useState<ShortUrlState>({ value: false, url: '' });
+    let [loading, setLoading] = useState(false);
     // const api_home = process.env.API_HOME
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +25,7 @@ const Form = () => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setLoading(true)
         const token: string | null = localStorage.getItem('authtoken');
         fetch('https://urlshortener-service-vfuq.onrender.com/home', {
             method: 'POST',
@@ -45,6 +48,9 @@ const Form = () => {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
 
@@ -79,7 +85,20 @@ const Form = () => {
 
                 </div>
             </form>
-            {shorturl.url && <CopyButton urlname={shorturl.url} />}
+
+            <div className='max-w-[25rem] sm:max-w-[18rem] m-auto flex justify-center '>
+                <ScaleLoader
+                    color="#A2D2FF"
+                    height={40}
+                    loading={loading}
+                    margin={1}
+                    radius={-2}
+                    width={6}
+                />
+            </div>
+
+
+            {!loading && shorturl.url && <CopyButton urlname={shorturl.url} />}
 
         </div>
     );

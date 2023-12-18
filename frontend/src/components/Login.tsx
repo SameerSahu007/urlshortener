@@ -1,15 +1,17 @@
-import { useState, useEffect, FormEvent, ChangeEvent} from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 interface UserInfo {
-    email: string, 
-    password : string, 
+    email: string,
+    password: string,
 }
 
 const Login = () => {
     const [formdata, setFormData] = useState<UserInfo>({ email: '', password: '' })
     const [error, setError] = useState<string>('')
     const navigate = useNavigate()
+    let [loading, setLoading] = useState(false);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -19,8 +21,8 @@ const Login = () => {
         });
     }
 
-    useEffect(()=> {
-        if(localStorage.getItem('authtoken')){
+    useEffect(() => {
+        if (localStorage.getItem('authtoken')) {
             navigate('/')
         }
     }, [])
@@ -33,19 +35,22 @@ const Login = () => {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         })
-        .then((res) => res.json())
-        .then((data) => {
-            if(data.token){
-                localStorage.setItem("authtoken", data.token);
-                window.location.reload();
-            } 
-            else if(data.error){
-                setError(data.error)
-            }    
-        })
-        .catch((err) => {
-            console.log(err.message);
-        });
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.token) {
+                    localStorage.setItem("authtoken", data.token);
+                    window.location.reload();
+                }
+                else if (data.error) {
+                    setError(data.error)
+                }
+            })
+            .catch((err) => {
+                console.log(err.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }
 
     return (
@@ -53,14 +58,15 @@ const Login = () => {
 
             <form onSubmit={handleSubmit}>
                 <div className='flex flex-col my-12'>
-                {error.length > 0 && <p className='text-center text-red-500'>{error}</p> }
+                    {error.length > 0 && <p className='text-center text-red-500'>{error}</p>}
                     <label className='text-center text-blue-500' >Email</label>
                     <input type="text"
                         name="email"
                         value={formdata.email}
                         onChange={handleInputChange}
                         placeholder="email"
-                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-8/12 mx-auto justify-left"
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  max-w-[25rem]
+                        sm:max-w-[18rem] m-auto justify-left"
                     />
                     <label className='text-center text-blue-500'>Password</label>
                     <input type="password"
@@ -68,14 +74,27 @@ const Login = () => {
                         value={formdata.password}
                         onChange={handleInputChange}
                         placeholder="password"
-                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-8/12 mx-auto justify-left"
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  max-w-[25rem]
+                        sm:max-w-[18rem] m-auto  justify-left"
                     />
                     <button
                         type="submit"
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 justify-center w-8/12 mx-auto my-4 rounded"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 justify-center w-[20.5rem] sm:max-w-[18rem]
+                         m-auto my-4 rounded"
                     >
                         Submit
                     </button>
+
+                    <div className='max-w-[25rem] sm:max-w-[18rem] m-auto flex justify-center '>
+                        <ScaleLoader
+                            color="#A2D2FF"
+                            height={40}
+                            loading={loading}
+                            margin={1}
+                            radius={-2}
+                            width={6}
+                        />
+                    </div>
 
                 </div>
             </form>
@@ -83,5 +102,5 @@ const Login = () => {
         </>
     );
 }
- 
+
 export default Login;
