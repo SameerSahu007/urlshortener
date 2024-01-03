@@ -13,6 +13,7 @@ const SignUp = () => {
     const [error, setError] = useState<string>('')
     const navigate = useNavigate()
     let [loading, setLoading] = useState(false);
+    const sign_up_api = process.env.REACT_APP_SIGNUP_API ?? ''
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -30,7 +31,7 @@ const SignUp = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setLoading(true)
-        fetch('https://urlshortener-service-vfuq.onrender.com/signup', {
+        fetch(sign_up_api, {
             method: 'POST',
             body: JSON.stringify(formdata),
             headers: {
@@ -67,8 +68,8 @@ const SignUp = () => {
                         value={formdata.email}
                         onChange={handleInputChange}
                         placeholder="email"
-                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 max-w-[25rem]
-                        sm:max-w-[18rem] m-auto justify-left"
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-[20.5rem]
+                        sm:max-w-[18rem] mx-auto justify-left"
                     />
                     <label className='text-center text-blue-500'>Password</label>
                     <input type="password"
@@ -76,8 +77,8 @@ const SignUp = () => {
                         value={formdata.password}
                         onChange={handleInputChange}
                         placeholder="password"
-                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  max-w-[25rem]
-                        sm:max-w-[18rem] m-auto justify-left"
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-[20.5rem]
+                        sm:max-w-[18rem] mx-auto justify-left"
                     />
 
                     <label className='text-center text-blue-500'>Password(Again)</label>
@@ -86,8 +87,8 @@ const SignUp = () => {
                         value={formdata.passwordagain}
                         onChange={handleInputChange}
                         placeholder="password"
-                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500max-w-[25rem]
-                        sm:max-w-[18rem] m-auto justify-left"
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-[20.5rem]
+                        sm:max-w-[18rem] mx-auto justify-left"
                     />
 
                     <button

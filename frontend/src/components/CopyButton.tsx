@@ -3,12 +3,12 @@ interface CopyButtonProps {
 }
 
 const CopyButton = ({ urlname }: CopyButtonProps) => {
-    // const api = process.env.API
     const copied = () => {
         navigator.clipboard.writeText(fullurl)
         alert("Link copied")
     }
-    const fullurl = 'https://urlshortener-service-vfuq.onrender.com/' + urlname
+    const url = process.env.REACT_APP_URL ?? ''
+    const fullurl = url + urlname
     return (
         <>
             <h2 className="text-center text-[#aaa] sm:text-sm my-5">Here is your shortened URL. Click to copy.</h2>

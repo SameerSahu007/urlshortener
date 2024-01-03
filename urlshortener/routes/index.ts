@@ -1,8 +1,10 @@
-const express = require('express');
+import express from 'express';
+import { urlGenerator, mylinks } from '../controllers/urlController';
+import { urlDecoder } from '../controllers/decoder';
+import { handleLogin, handleSignUp, verifyToken } from '../controllers/Authentication';
+
 const router = express.Router();
-const { urlGenerator, mylinks } = require('../controllers/urlController')
-const { urlDecoder } = require('../controllers/decoder.js')
-const { handleLogin, handleSignUp, verifyToken } = require('../controllers/Authentication')
+
 
 router.get('/', (req, res) => {
     res.redirect('/url');
@@ -19,4 +21,4 @@ router.post('/login', handleLogin);
 router.post('/signup', handleSignUp);
 router.get('/:url', urlDecoder);
 
-module.exports = router;
+export default router

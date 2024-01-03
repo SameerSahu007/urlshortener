@@ -1,7 +1,7 @@
-const sq = require("../config/db");
-const { DataTypes } = require("sequelize");
+import { DataTypes, Sequelize } from 'sequelize';
+import sq from '../config/db';
 
-const UrlMap = sq.define("url", {
+const UrlMap = sq.define('url', {
   encodedString: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -16,31 +16,32 @@ const UrlMap = sq.define("url", {
     defaultValue: 0,
     allowNull: false,
   },
-  lastVisit:{
+  lastVisit: {
     type: DataTypes.DATE,
-    allowNull: true
-  }
+    allowNull: true,
+  },
 });
 
-const User =  sq.define("user", {
-  email :{
-    type: DataTypes.STRING, 
-    allowNull: false, 
-    primaryKey: true, 
+const User = sq.define('user', {
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    primaryKey: true,
   },
   password: {
-    type:DataTypes.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
-  }
+  },
 });
 
 User.hasMany(UrlMap, {
   onDelete: 'CASCADE',
-})
+});
+
 UrlMap.belongsTo(User);
 
 (async () => {
   await sq.sync();
 })();
 
-module.exports = {UrlMap, User};
+export { UrlMap, User };

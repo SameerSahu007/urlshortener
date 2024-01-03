@@ -12,6 +12,7 @@ const Login = () => {
     const [error, setError] = useState<string>('')
     const navigate = useNavigate()
     let [loading, setLoading] = useState(false);
+    const login_api = process.env.REACT_APP_LOGIN_API ?? ''
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -28,7 +29,7 @@ const Login = () => {
     }, [])
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        fetch('https://urlshortener-service-vfuq.onrender.com/login', {
+        fetch(login_api, {
             method: 'POST',
             body: JSON.stringify(formdata),
             headers: {
@@ -65,8 +66,8 @@ const Login = () => {
                         value={formdata.email}
                         onChange={handleInputChange}
                         placeholder="email"
-                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  max-w-[25rem]
-                        sm:max-w-[18rem] m-auto justify-left"
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-[20.5rem]
+                        sm:max-w-[18rem] mx-auto justify-left"
                     />
                     <label className='text-center text-blue-500'>Password</label>
                     <input type="password"
@@ -74,8 +75,8 @@ const Login = () => {
                         value={formdata.password}
                         onChange={handleInputChange}
                         placeholder="password"
-                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  max-w-[25rem]
-                        sm:max-w-[18rem] m-auto  justify-left"
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500  w-[20.5rem]
+                        sm:max-w-[18rem] mx-auto justify-left"
                     />
                     <button
                         type="submit"

@@ -1,15 +1,18 @@
-const validator = require('validator')
-const crypto = require('crypto');
-const { UrlMap } = require('../models/urlMap')
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const secretKey = process.env.SECRET_KEY;
+import validator from 'validator';
+import crypto from 'crypto';
+import { UrlMap } from '../models/urlMap';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const secretKey: string | undefined = process.env.SECRET_KEY;
+
 
 
 function generateUniqueIdentifier(url) {
     url = url + Date.now()
     const uniqueIdentifier = crypto.createHash('sha256').update(url).digest('hex').slice(0, 8);
-    console.log(uniqueIdentifier)
     // eslint-disable-next-line no-undef
     const encodedIdentifier = Buffer.from(uniqueIdentifier).toString('base64').replace(/=+$/, '');
     return encodedIdentifier;
@@ -28,6 +31,7 @@ const urlGenerator = async (req, res) => {
             try {
                 const decoded = jwt.verify(token, secretKey);
                 const email = decoded.email;
+                // @ts-ignore
                 const urlobj = new UrlMap({ encodedString, url, userEmail: email })
                 await urlobj.save()
             } catch (error) {
@@ -36,6 +40,7 @@ const urlGenerator = async (req, res) => {
             }
         }
         else {
+            // @ts-ignore
             const urlobj = new UrlMap({ encodedString, url })
             await urlobj.save()
         }
@@ -47,12 +52,13 @@ const urlGenerator = async (req, res) => {
 
 const mylinks = async (req, res) => {
     console.log(req.user.email)
-    const allUserLinks = await UrlMap.findAll({where: {userEmail: req.user.email}})
+    const allUserLinks = await UrlMap.findAll({ where: { userEmail: req.user.email } })
     console.log(allUserLinks)
     console.log(JSON.stringify(allUserLinks))
     res.json(allUserLinks)
 }
 
-module.exports = {
-    urlGenerator, mylinks
-};
+export {
+    urlGenerator,
+    mylinks
+  };

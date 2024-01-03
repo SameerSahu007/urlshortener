@@ -1,9 +1,9 @@
-const express = require('express')
+import express from 'express'
 const app = express()
-const router = require('./routes/index')
-const cors = require('cors');
-const  sq = require('./config/db')
-const cookieParser = require('cookie-parser');
+import router from './routes/index'
+import cors  from 'cors';
+import sq from './config/db'
+import cookieParser from 'cookie-parser';
 const PORT = process.env.PORT || 8000
 
 require('dotenv').config();

@@ -16,7 +16,7 @@ const Form = () => {
     const [error, setError] = useState<string>('');
     const [shorturl, setShortUrl] = useState<ShortUrlState>({ value: false, url: '' });
     let [loading, setLoading] = useState(false);
-    // const api_home = process.env.API_HOME
+    const api_home:string = process.env.REACT_APP_HOME_API ?? ''
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const url = e.target.value;
@@ -27,7 +27,7 @@ const Form = () => {
         e.preventDefault()
         setLoading(true)
         const token: string | null = localStorage.getItem('authtoken');
-        fetch('https://urlshortener-service-vfuq.onrender.com/home', {
+        fetch(api_home, {
             method: 'POST',
             body: JSON.stringify(formdata),
             headers: {

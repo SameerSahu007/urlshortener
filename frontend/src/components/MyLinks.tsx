@@ -9,9 +9,10 @@ interface UserLink {
 
 const MyLinks = () => {
     const [userlinks, setUserLinks] = useState<UserLink[]>([]);
+    const my_links_api = process.env.REACT_APP_MY_LINKS_API ?? ''
     useEffect(() => {
         const token = localStorage.getItem('authtoken');
-        fetch('https://urlshortener-service-vfuq.onrender.com/mylinks', {
+        fetch(my_links_api, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -67,7 +68,7 @@ const MyLinks = () => {
 
 <div className="flex flex-col w-5/6 mx-auto sm:w-full">
   <div className="flex bg-black text-gray-500 border-b-2 border-[#6B7280]">
-    <div className="flex-1 px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border border-[#6B7280]">
+    <div className="flex-1 px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border border-[#6B7280] ">
       Encoded String
     </div>
     <div className="flex-1 px-6 py-3 text-left text-sm font-medium uppercase tracking-wider border border-[#6B7280]">
